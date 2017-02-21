@@ -1,5 +1,0 @@
-Flat-UI
-http://designmodo.github.io/Flat-UI/
-
-Bootstrap
-https://v4-alpha.getbootstrap.com/components/alerts/
