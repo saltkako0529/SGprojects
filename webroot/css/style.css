@@ -1,0 +1,92 @@
+html { height: 100%; }
+body { height: 100%; /*background-color: #efefef;*/ }
+#cont_right { height: 100%; background-color: #fff; }
+#cont_box { padding-top: 53px; }
+.card-header { text-align: center; }
+.navbar { margin-bottom: 0; }
+.message { text-align: center; }
+.navbar-collapse .navbar-nav.navbar-right:last-child { margin-right: 10px; }
+.actions { width: 160px; }
+.actions2 { width: 120px; }
+.actions .no-p { padding-left: 0; }
+.actions .icon-p { padding: 3px; }
+.alert { margin-bottom: 0; }
+.checkbox, .radio { margin-bottom: 0; margin-top: 0;}
+/*-----------------------
+  Pagination CSS
+-----------------------*/
+div.paginator { text-align: center; }
+ul.pagination { margin: 0; }
+.pagination li > span.current {
+    background-color: #1abc9c;
+    color: #ffffff;
+    border-color: #dfe2e5;
+    padding: 12px 17px;
+}
+.pagination>li>a, .pagination>li>span { padding: 0; background: #dfe2e5;}
+.pagination li.previous > a, .pagination li.next > a, .pagination li.previous > span, .pagination li.next > span { background: #dfe2e5; }
+.pagination>li>a:hover, .pagination>li>a:focus { color: #fff; }
+.pagination { background: none; }
+
+/*-----------------------
+  Nav CSS
+-----------------------*/
+nav.no-p {
+    padding-left: 0;
+    padding-right: 0;
+}
+.nav-pills>li>a { border-radius: 0; }
+.nav>li>a { padding: 7px 20px; }
+.nav>li.logout>a { padding: 15px 20px; }
+.nav-pills>li>a:hover, .nav>li>a:focus {
+    background-color: #1ABC9C;
+    color: #fff;
+    padding-left: 26px;
+}
+.nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
+    background-color: #1ABC9C;
+}
+a:hover, a:focus { color: #fff; }
+.nav-stacked>li+li { margin-top: 0px; border-top: 1px solid #ffffff; }
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td { border-right: 1px dotted #ddd; }
+/*-----------------------
+  Img CSS
+-----------------------*/
+.prof_img {
+    padding: 10px;
+    color: #fff;
+}
+.prof_img span {
+    display: inline-block;
+    vertical-align: bottom;
+}
+.prof_img img {
+    border-radius: 15px;
+    height: 30px;
+    width: 30px;
+}
+
+/*-----------------------
+  Calender CSS
+-----------------------*/
+.sun { background: #ffe9e9; }
+.sat { background: #ddffff; }
+
+/*-----------------------
+  Form CSS
+-----------------------*/
+.form-control { display: inline-block; }
+
+/*-----------------------
+  Common CSS
+-----------------------*/
+.w_50 { width: 50px; }
+.w_100 { width: 100px; }
+.w_150 { width: 150px; }
+.w_200 { width: 200px; }
+.w_250 { width: 250px; }
+.w_300 { width: 300px; }
+.w_400 { width: 400px; }
+.w_500 { width: 500px; }
+
+
