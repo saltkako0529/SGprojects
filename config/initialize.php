@@ -8,8 +8,8 @@ $config ['Menu']['general'] = array (
 );
 // サイドメニュー：管理者項目
 $config ['Menu']['admin'] = array (
-	'users' => ['fui-user', 'ユーザマスタ'],
 	'projects' => ['fui-bookmark', '案件マスタ'],
+	'users' => ['fui-user', 'ユーザマスタ'],
 	'clients' => ['fui-home', '顧客マスタ'],
 	'outsourcings' => ['fui-tag', '外注マスタ']
 );
@@ -69,8 +69,7 @@ $config ['Hour'] ['work'] = array (
 // 工数入力：承認フラグ
 $config ['Hour'] ['application'] = array (
 	'0' => '未申請',
-	'1' => '申請中',
-	'2' => '承認済'
+	'1' => '承認済'
 );
 // List Options  -------------------------------------
 // 工数入力：承認フラグ

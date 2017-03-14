@@ -74,7 +74,6 @@ class ProjectsController extends AppController
             $project = $this->Projects->patchEntity($project, $this->request->data);
             if ($this->Projects->save($project)) {
                 $this->Flash->success(__('登録が完了しました。'));
-
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('登録に失敗しました！登録内容を再度ご確認ください。'));

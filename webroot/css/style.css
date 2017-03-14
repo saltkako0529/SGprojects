@@ -1,8 +1,9 @@
 html { height: 100%; }
 body { height: 100%; /*background-color: #efefef;*/ }
 #cont_right { height: 100%; background-color: #fff; }
-#cont_box { padding-top: 53px; }
+#cont_box { position: absolute; top: 53px; width: 100%; }
 .card-header { text-align: center; }
+.navbar-fixed-top {}
 .navbar { margin-bottom: 0; }
 .message { text-align: center; }
 .navbar-collapse .navbar-nav.navbar-right:last-child { margin-right: 10px; }
@@ -34,6 +35,8 @@ ul.pagination { margin: 0; }
 nav.no-p {
     padding-left: 0;
     padding-right: 0;
+	height: 100%;
+	background: #eee;
 }
 .nav-pills>li>a { border-radius: 0; }
 .nav>li>a { padding: 7px 20px; }
@@ -41,7 +44,6 @@ nav.no-p {
 .nav-pills>li>a:hover, .nav>li>a:focus {
     background-color: #1ABC9C;
     color: #fff;
-    padding-left: 26px;
 }
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
     background-color: #1ABC9C;

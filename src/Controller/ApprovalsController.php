@@ -37,18 +37,19 @@ class ApprovalsController extends AppController
 			->where(
 				[
 				'Hours.officer' => $user_id ,
-				'Hours.application' => 1 // 申請中のものを取得
+				'Hours.application' => 0 // 申請中のものを取得
 				]
 			);
-        $users = $this->Hours->Users->find('list');
+		$records = $records->toArray();
+		
+		$users = $this->Hours->Users->find('list');
         $projects = $this->Hours->Projects->find('list');
 		$users = $users->toArray();
 		$projects = $projects->toArray();
 		
         if ($this->request->is(['patch', 'post', 'put'])) {
-			$records = $this->Hours->newEntity();
-            $records = $this->Hours->patchEntity($records, $this->request->data());
-			//pr($records);
+			//$records = $this->Hours->newEntity();
+            $records = $this->Hours->patchEntity($records, $this->request->data);
             if ($this->Hours->save($records)) {
                 $this->Flash->success(__('登録が完了しました。'));
 

@@ -53,10 +53,10 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <div class="clearfix" id="cont_box">
     <?= $this->Flash->render() ?>
     <?php if(empty($login)){; ?>
-	<nav class="col-md-2 col-sm-3 col-xs-12 h-100 d-inline-block no-p">
+	<nav class="col-md-2 col-sm-3 col-xs-12 h-100  navbar-fixed-top d-inline-block no-p">
 		<?php echo $this->element('sidemenu'); ?>
 	</nav>
-	<div class="col-md-10 col-sm-9 col-xs-12" id="cont_right">
+	<div class="col-md-10 col-sm-9 col-xs-12 col-md-offset-2 col-sm-offset-3" id="cont_right">
 	        <?= $this->fetch('content') ?>
 	</div>
     <?php } else {; ?>
