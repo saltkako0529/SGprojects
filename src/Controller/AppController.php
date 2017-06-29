@@ -3,7 +3,7 @@
  * CakePHP(tm) : Rapid Development Framework (http://cakephp.org)
  * Copyright (c) Cake Software Foundation, Inc. (http://cakefoundation.org)
  *
- * LiceApplicationControllernsed under The MIT License
+ * Licensed under The MIT License
  * For full copyright and license information, please see the LICENSE.txt
  * Redistributions of files must retain the above copyright notice.
  *
@@ -29,13 +29,18 @@ use Cake\Datasource\ConnectionManager;
  */
 class AppController extends Controller
 {
-public function initialize()
+
+    /** -----------------------------------------------------------------------------
+     * 
+     * 基本設定
+     */
+    public function initialize()
     {
         parent::initialize();
-		$this->loadComponent('Paginator');
+        $this->loadComponent('Paginator'); // ページネーションコンポーネント
         $this->loadComponent('Flash'); 
         $this->loadComponent('RequestHandler'); 
-        $this->loadComponent('Auth', [ // Auth�R���|�[�l���g�̓ǂݍ���
+        $this->loadComponent('Auth', [ // Authコンポーネントの読み込み
             'authenticate' => [
                 'Form' => [ 
                     'fields' => [
@@ -44,46 +49,52 @@ public function initialize()
                     ]
                 ]
             ],
-			'loginAction' => [
-				'controller' => 'login',
-				'action' => 'index'
-			],
-            'loginRedirect' => [ // ���O�C����ɑJ�ڂ���A�N�V�������w��
+            'loginAction' => [
+                'controller' => 'login',
+                'action' => 'index'
+            ],
+            'loginRedirect' => [ // ログイン後に遷移するアクションを指定
                 'controller' => 'Hours',
                 'action' => 'index'
             ],
-            'logoutRedirect' => [ // ���O�A�E�g��ɑJ�ڂ���A�N�V�������w��
+            'logoutRedirect' => [ // ログアウト後に遷移するアクションを指定
                 'controller' => 'Login',
                 'action' => 'index',
             ],
-            'authError' => '���O�C���ł��܂���ł����B���O�C�����Ă��������B',
+            'authError' => 'ログインできませんでした。ログインしてください。',
         ]);
-		// ���[�U�����擾 -------------------------------------
-		$user_auth = $this->Auth->user();
-		$this->set(compact('user_auth'));
-		// �T�C�h���j���[�擾 -----------------------------------
-		$general_m = Configure::read('Menu.general');
-		$admin_m = Configure::read('Menu.admin');
-		$this->set(compact('general_m', 'admin_m'));
-		
-	}
-	// �y�[�W�l�[�V����  -----------------------------------------
-    public  $helpers = [
-		'Paginator' => [
-        'limit' => 10,
-        'templates' => 'paginator-templates'
-		]
-    ];
-		
-		
-	/**
-	 * ���O�A�E�g
-	 * @return bool
-	 */
-	public function logout()
-	{
-	    $this->request->session()->destroy(); // �Z�b�V�����̔j��
-	    return $this->redirect($this->Auth->logout()); // ���O�A�E�g����
-	}
-
+      
+      // ユーザ情報を取得
+      $user_auth = $this->Auth->user();
+      $this->set(compact('user_auth'));
+          
+      // サイドメニュー取得
+      $general_m = Configure::read('Menu.general');
+      $admin_m = Configure::read('Menu.admin');
+      $this->set(compact('general_m', 'admin_m'));
+      
+    }
+  
+    /** -----------------------------------------------------------------------------
+     * 
+     * ページネーション設定
+     */
+    public $helpers = [
+        'Paginator' => [
+            'limit' => 10,
+            'templates' => 'paginator-templates',
+            'order' => [ 'id' => 'asc']
+        ]
+    ]; 
+  
+    /** -----------------------------------------------------------------------------
+     * 
+     * ログアウト
+     */
+    public function logout()
+    {
+        $this->request->session()->destroy(); // セッションの破棄
+        return $this->redirect($this->Auth->logout()); // ログアウト処理
+    }
+  
 }

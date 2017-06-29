@@ -1,25 +1,21 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\User;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
+
 /**
  * Users Model
- *
- * @method \App\Model\Entity\User get($primaryKey, $options = [])
- * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\User[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\User|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\User patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\User[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\User findOrCreate($search, callable $callback = null, $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class UsersTable extends Table
 {
+    /* 論理削除設定 */
+    use SoftDeleteTrait;
+    protected $softDeleteField = 'deleted';
 
     /**
      * Initialize method
@@ -29,28 +25,10 @@ class UsersTable extends Table
      */
     public function initialize(array $config)
     {
-        parent::initialize($config);
-
         $this->table('users');
         $this->displayField('name');
         $this->primaryKey('id');
-
-        //$this->addBehavior('Timestamp');
-
-	$this->addBehavior('Utils.Uploadable', [
-	    'files' => [
-		'field' => 'loginid',
-		'path' => '{ROOT}{DS}{WEBROOT}{DS}uploads{DS}{model}{DS}',
-		'fileName' => '{field}.{extension}',
-		'removeFileOnUpdate' => false,
-		'removeFileOnDelete' => true,
-		'fields' => [
-			'fileName' => 'files',
-			'filePath' => 'filepath'
-		]
-	    ],
-	]);
-
+        $this->addBehavior('Timestamp');
     }
 
     /**
@@ -62,49 +40,28 @@ class UsersTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
-
-        $validator
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create')
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
-
-        $validator
-            ->integer('type')
+            ->notEmpty('name')
+            ->add('type', 'valid', ['rule' => 'numeric'])
             ->requirePresence('type', 'create')
-            ->notEmpty('type');
-
-        $validator
-            ->integer('affiliation')
+            ->notEmpty('type')
+            ->add('affiliation', 'valid', ['rule' => 'numeric'])
             ->requirePresence('affiliation', 'create')
-            ->notEmpty('affiliation');
-
-        $validator
-            ->integer('employment')
+            ->notEmpty('affiliation')
+            ->add('employment', 'valid', ['rule' => 'numeric'])
             ->requirePresence('employment', 'create')
-            ->notEmpty('employment');
-
-        $validator
-            ->email('email')
-            ->allowEmpty('email');
-
-        $validator
+            ->notEmpty('employment')
+            ->add('email', 'valid', ['rule' => 'email'])
+            ->allowEmpty('email')
             ->requirePresence('loginid', 'create')
-            ->notEmpty('loginid');
-
-        $validator
+            ->notEmpty('loginid')
             ->requirePresence('password', 'create')
-            ->notEmpty('password');
-
-        $validator
-            ->integer('color')
-            ->requirePresence('color', 'create')
-            ->notEmpty('color');
-
-        $validator
-            ->allowEmpty('filepath');
-
-        $validator
+            ->notEmpty('password')
+            //->requirePresence('files', 'create')
+            ->allowEmpty('files')
+            ->allowEmpty('filepath')
             ->allowEmpty('remarks');
 
         return $validator;
@@ -120,7 +77,6 @@ class UsersTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->isUnique(['email']));
-
         return $rules;
     }
 }

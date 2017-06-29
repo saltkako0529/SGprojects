@@ -1,8 +1,8 @@
 <?php
 namespace App\Controller;
-use Cake\Event\Event;
-use App\Controller\AppController;
 
+use App\Controller\AppController;
+use Cake\Event\Event;
 /**
  * Outsourcings Controller
  *
@@ -10,24 +10,35 @@ use App\Controller\AppController;
  */
 class OutsourcingsController extends AppController
 {
+
     public function beforeFilter(Event $event)
     {
-	// ページ情報
-	$active = 'outsourcings';
+        // ページ情報
+        $active = 'outsourcings';
         $this->set(compact('active'));
     }
-    /**
+  
+    /** -----------------------------------------------------------------------------
+     * 
      * 一覧画面
      */
     public function index()
     {
-        $outsourcings = $this->paginate($this->Outsourcings);
-
+				if ($this->request->is('post')) {
+						$datas = $this->request->data;
+						$outsourcings = $this->Outsourcings->find()
+								->order(['id' =>'Asc'])
+								->where(["name like " => '%' . $datas['name'] . '%']);
+				} else {
+						$outsourcings = $this->Outsourcings->find()->all();
+				}      
         $this->set(compact('outsourcings'));
+        $outsourcings = $this->paginate($this->Outsourcings);
         $this->set('_serialize', ['outsourcings']);
     }
 
-    /**
+    /** -----------------------------------------------------------------------------
+     * 
      * 詳細画面
      */
     public function view($id = null)
@@ -40,18 +51,19 @@ class OutsourcingsController extends AppController
         $this->set('_serialize', ['outsourcing']);
     }
 
-    /**
+    /** -----------------------------------------------------------------------------
+     * 
      * 編集画面
      */
     public function edit($id = null)
     {
-	if(!empty($id)){// 編集
-	        $outsourcing = $this->Outsourcings->get($id, [
-	            'contain' => []
-	        ]);
-	} else {// 新規追加
-	        $outsourcing = $this->Outsourcings->newEntity();
-	}
+        if(!empty($id)){// 編集
+            $outsourcing = $this->Outsourcings->get($id, [
+                'contain' => []
+            ]);
+        } else {// 新規追加
+            $outsourcing = $this->Outsourcings->newEntity();
+        }
 
         if ($this->request->is(['patch', 'post', 'put'])) {
             $outsourcing = $this->Outsourcings->patchEntity($outsourcing, $this->request->data);
@@ -67,20 +79,19 @@ class OutsourcingsController extends AppController
         $this->set('_serialize', ['outsourcing']);
     }
 
-    /**
-     * 削除メソッド
+
+    /** -----------------------------------------------------------------------------
+     * 
+     * 削除アクション
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
         $outsourcing = $this->Outsourcings->get($id);
-
-        if ($this->Outsourcings->delete($user)) {
+        if ($this->Outsourcings->delete($outsourcing)) {
             $this->Flash->success(__('データを削除しました。'));
         } else {
             $this->Flash->error(__('データを削除できませんでした。'));
         }
-
         return $this->redirect(['action' => 'index']);
     }
 }

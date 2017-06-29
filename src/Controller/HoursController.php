@@ -1,9 +1,9 @@
 <?php
 namespace App\Controller;
 
+use App\Controller\AppController;
 use Cake\Event\Event;
 use Cake\Core\Configure;
-use App\Controller\AppController;
 
 /**
  * Hours Controller
@@ -12,81 +12,92 @@ use App\Controller\AppController;
  */
 class HoursController extends AppController
 {
+
     public function beforeFilter(Event $event)
     {
-		// 選択肢項目読み込み
-		$work_kind = Configure::read('Hour.work_kind');
-		$work = Configure::read('Hour.work');
-		$appl = Configure::read('Hour.application');
-	
+        // 選択肢項目読み込み
+        $work_kind = Configure::read('Hour.work_kind');
+        $work = Configure::read('Hour.work');
+        $appl = Configure::read('Hour.application');
         $this->set(compact('work_kind', 'work', 'appl'));
 	
-		// ページ情報
-		$active = 'hours';
+        // ページ情報
+        $active = 'hours';
         $this->set(compact('active'));
-	
+
     }
+	
     /** -----------------------------------------------------------------------------
+     * 
      * topページ
      */
-	public function index()
+    public function index()
     {
-		// 現在の年月を取得
-		$year = date('Y');
-		$month = date('n');
-		$this->setAction('calender', $year, $month);
+        // 現在の年月を取得
+        $year = date('Y');
+        $month = date('n');
+        $this->setAction('calender', $year, $month);
     }
+  
     /** -----------------------------------------------------------------------------
+     * 
      * 一覧画面
      */
-    public function calender($year, $month)
+    public function calender($year = null, $month = null)
     {
-		// 現在の年月を取得
-		$year = date('Y');
-		$month = date('n');
+        // 現在の年月を取得
+				if(empty($year)){
+						$year = date('Y');
+						$month = date('n');	
+				}
         $this->set(compact('year', 'month'));
-		
-        $this->paginate = [
-            'contain' => ['Users', 'Projects']
-        ];
-        $hours = $this->paginate($this->Hours);
+	
+				$session = $this->request->session();
+				$t = $session->read('Auth.User.id');
 
-        $this->set(compact('hours'));
-        $this->set('_serialize', ['hours']);
+        // 工数レコードを取得
+        $hour = $this->Hours->find()
+        ->where([
+            'Hours.year' => $year, 
+            'Hours.month' => $month
+        ]);	
     }
+	
     /** -----------------------------------------------------------------------------
+     * 
      * 詳細画面
      */
-    public function view($id = null, $year, $month, $date)
+    public function view($year, $month, $date)
     {
-		// 工数レコードを取得
-		$hour = $this->Hours->find()
-		->where(['Hours.users_id' => $id,
-				 'Hours.year' => $year, 
-				 'Hours.month' => $month, 
-				 'Hours.date' => $date
-				]);	
-		$hour = $hour->toArray();
-		
+				$session = $this->request->session();
+				$id = $session->read('Auth.User.id');
+        // 工数レコードを取得
+        $hour = $this->Hours->find()
+        ->where(['Hours.users_id' => $id,
+            'Hours.year' => $year, 
+            'Hours.month' => $month, 
+            'Hours.date' => $date
+        ]);	
+        $hour = $hour->toArray();
         $users = $this->Hours->Users->find('list')->toArray();
         $projects = $this->Hours->Projects->find('list')->toArray();
-		
         $this->set(compact('hour', 'users', 'projects', 'year', 'month', 'date'));
         $this->set('_serialize', ['hour']);
     }
     /** -----------------------------------------------------------------------------
+     * 
      *　編集画面
      */
     public function edit($id = null, $year, $month, $date)
     {
-		// 工数レコードを取得
-		$hour = $this->Hours->find()
-		->where(['Hours.users_id' => $id, 'Hours.year' => $year, 'Hours.month' => $month, 'Hours.date' => $date ]);	
-		// 該当データが1つもない場合
-		if(empty($hour)){// 編集
-			$hour = $this->Hours->newEntity();
-		} 		
-		
+        // 工数レコードを取得
+        $hour = $this->Hours->find()
+           ->where(['Hours.users_id' => $id, 'Hours.year' => $year, 'Hours.month' => $month, 'Hours.date' => $date ]);	
+        // 該当データが1つもない場合
+        if(empty($hour)){// 編集
+            $hour = $this->Hours->newEntity();
+        } 
+
         if ($this->request->is(['patch', 'post', 'put'])) {
             $hour = $this->Hours->patchEntity($hour, $this->request->data);
             if ($this->Hours->save($hour)) {
@@ -99,7 +110,6 @@ class HoursController extends AppController
         }
         $users = $this->Hours->Users->find('list');
         $projects = $this->Hours->Projects->find('list')->toArray();
-		//$projects[] = ['0' => '案件名不明・社内作業・その他雑作業'];
         $this->set(compact('hour', 'users', 'projects'));
         $this->set('_serialize', ['hour']);
     }

@@ -14,19 +14,20 @@ class ListsController extends AppController
 {
     public function beforeFilter(Event $event)
     {
-		// 選択肢項目読み込み
-		$priority = Configure::read('List.priority');
+				// 選択肢項目読み込み
+				$priority = Configure::read('List.priority');
         $this->set(compact('priority'));
 	
-		// ページ情報
-		$active = 'lists';
+				// ページ情報
+				$active = 'lists';
         $this->set(compact('active'));
 	
     }
     /** -----------------------------------------------------------------------------
-     * topページ
+     * 
+		 * topページ
      */
-	public function index()
+		public function index()
     {
 
     }

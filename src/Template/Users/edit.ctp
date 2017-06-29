@@ -29,21 +29,7 @@
 			<th>パスワード</th>
 			<td><div class="col-sm-4"><?php echo $this->Form->input('password',['class'=>'form-control']); ?></div></td>
 		</tr>
-		<!--tr>
-			<th>カラー選択</th>
-			<td></td>
-		</tr>
-		<tr>
-			<th>画像ファイル</th>
-			<td>
-				<?php echo $this->Form->input('files', ['type'=>'file']); ?>
 
-<?php if(empty($user['files'])){; ?>
-				<?php } else {; ?>
-				<img src="/<?= h($user['filepath']) ?>" alt="<?= h($user['name']) ?>">
-				<?php }; ?>
-			</td>
-		</tr-->
 		<tr>
 			<th>備考</th>
 			<td><div class="col-sm-12"><?php echo $this->Form->input('remarks',['class'=>'form-control']); ?></div></td>

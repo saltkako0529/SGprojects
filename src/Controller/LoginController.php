@@ -12,24 +12,24 @@ use Cake\Auth\DefaultPasswordHasher;
 class LoginController extends AppController
 {
 
-    /**
-     * Index method
-     *
-     * @return \Cake\Network\Response|null
+    /** -----------------------------------------------------------------------------
+     * 
+     * ログイン設定
      */
     public function index()
     {
-		$login = 'login_page';
-		$this->set(compact('login'));
-	    if($this->request->is('post')) {
-	        $user = $this->Auth->identify();
-	        if ($user){
-	            $this->Auth->setUser($user);
-		    $this->request->session()->delete('Auth.redirect');
-	            return $this->redirect($this->Auth->redirectUrl());
-	        } else {
-	            $this->Flash->error('ログインエラーです');
-	        }
-	    }
+				$login = 'login_page';
+				$this->set(compact('login'));
+			
+				if($this->request->is('post')) {
+						$user = $this->Auth->identify();
+						if ($user){
+								$this->Auth->setUser($user);
+								$this->request->session()->delete('Auth.redirect');
+								return $this->redirect($this->Auth->redirectUrl());
+						} else {
+								$this->Flash->error('ログインエラーです');
+						}
+				}
     }
 }

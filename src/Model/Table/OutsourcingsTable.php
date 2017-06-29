@@ -1,27 +1,22 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Outsourcing;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Outsourcings Model
- *
- * @method \App\Model\Entity\Outsourcing get($primaryKey, $options = [])
- * @method \App\Model\Entity\Outsourcing newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Outsourcing[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Outsourcing|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Outsourcing patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Outsourcing[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Outsourcing findOrCreate($search, callable $callback = null, $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class OutsourcingsTable extends Table
 {
-
+    /* 論理削除設定 */
+    use SoftDeleteTrait;
+    protected $softDeleteField = 'deleted';
+  
     /**
      * Initialize method
      *
@@ -30,12 +25,9 @@ class OutsourcingsTable extends Table
      */
     public function initialize(array $config)
     {
-        parent::initialize($config);
-
         $this->table('outsourcings');
         $this->displayField('name');
         $this->primaryKey('id');
-
         $this->addBehavior('Timestamp');
     }
 
@@ -48,23 +40,15 @@ class OutsourcingsTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
-
-        $validator
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create')
+            ->add('deleted', 'valid', ['rule' => 'datetime'])
+            ->allowEmpty('deleted')
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
-
-        $validator
-            ->allowEmpty('postalcode');
-
-        $validator
-            ->allowEmpty('address');
-
-        $validator
-            ->allowEmpty('tel');
-
-        $validator
+            ->notEmpty('name')
+            ->allowEmpty('postalcode')
+            ->allowEmpty('address')
+            ->allowEmpty('tel')
             ->allowEmpty('remarks');
 
         return $validator;

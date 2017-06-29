@@ -17,34 +17,42 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
 ?>
 <!DOCTYPE html>
 <html>
-<head">
+<head>
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-	Signite system
+        <?= $cakeDescription ?>:
+        <?= $this->fetch('title') ?>
     </title>
+
     <?= $this->Html->meta('icon') ?>
+
+    <!--?= $this->Html->css('base.css') ?-->
+    <?= $this->Html->css('cake.css') ?>
+
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
     <link href="/css/vendor/bootstrap.min.css" rel="stylesheet">
     <link href="/css/flat-ui.css" rel="stylesheet">
     <?= $this->Html->css('style.css') ?>
-    <script src="/js/vendor/jquery.min.js"></script>
+	
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <!--script src="/js/vendor/jquery.min.js"></script-->
+	  <script src="/js/common.js"></script>
     <script src="/js/vendor/respond.min.js"></script>
-    <script src="/js/common.js"></script>
-    <script src="/js/flat-ui.min.js"></script>
+
+    <script src="/js/flat-ui.min.js"></script>  
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-embossed navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#"><img src="/img/logo.png" alt="Signite" width="30"> Signite System</a>
+            <a class="navbar-brand" href="/hours/"><img src="/img/logo.png" alt="Signite" width="30"> Signite System</a>
         </div>
         <?php if(empty($login)){; ?>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <!--li class="prof_img"><img src="/<?= $user_auth['filepath'] ?>" alt="" width="30">　<span><?= $user_auth['name'] ?></span></li-->
-                <li class="prof_img"><span><?= $user_auth['name'] ?></span></li>
+							<li class="prof_img"><a href="#"><span><?= @$user_auth['name'] ?></span></a></li>
                 <li class="logout"><a href="/login/"><span class="fui-export"></span>　Logout</a></li>
             </ul>
         <?php }; ?>
@@ -53,19 +61,19 @@ $cakeDescription = 'CakePHP: the rapid development php framework';
     <div class="clearfix" id="cont_box">
     <?= $this->Flash->render() ?>
     <?php if(empty($login)){; ?>
-	<nav class="col-md-2 col-sm-3 col-xs-12 h-100  navbar-fixed-top d-inline-block no-p">
-		<?php echo $this->element('sidemenu'); ?>
-	</nav>
-	<div class="col-md-10 col-sm-9 col-xs-12 col-md-offset-2 col-sm-offset-3" id="cont_right">
-	        <?= $this->fetch('content') ?>
-	</div>
+				<nav class="col-md-2 col-sm-3 col-xs-12 h-100 d-inline-block no-p">
+					<?php echo $this->element('sidemenu'); ?>
+				</nav>
+				<div class="col-md-10 col-sm-9 col-xs-12" id="cont_right">
+								<?= $this->fetch('content') ?>
+				</div>
     <?php } else {; ?>
-	<div class="col-md-12 col-sm-12 col-xs-12">
-	        <?= $this->fetch('content') ?>
-	</div>
+				<div class="col-md-12 col-sm-12 col-xs-12">
+								<?= $this->fetch('content') ?>
+				</div>
     <?php }; ?>
+        <footer>
+        </footer>
     </div>
-    <footer>
-    </footer>
 </body>
 </html>

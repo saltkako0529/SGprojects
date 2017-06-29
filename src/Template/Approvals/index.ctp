@@ -23,8 +23,8 @@
 	        <td><?= h($records['hour']) ?></td>
 	        <td>
                 <label class="checkbox" for="checkbox<?= h($records['id']) ?>">
-                	<!--?= $this->Form->hidden($k.'.id',['value'=> $records['id'] ]) ?-->
-					<?=$this->Form->checkbox($k.'.application',['id'=>'checkbox'.$records['id'],'data-toggle'=>'checkbox']) ?>
+									<?=$this->Form->hidden( $k.'.id'); ?>
+									<?=$this->Form->checkbox( $k.'.application',['id'=>'checkbox'.$records['id'],'data-toggle'=>'checkbox', 'value'=>'2']) ?>
                   承認する
                 </label>    
     		</td>

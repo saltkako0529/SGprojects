@@ -1,28 +1,21 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Client;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Clients Model
- *
- * @property \Cake\ORM\Association\BelongsTo $Users
- *
- * @method \App\Model\Entity\Client get($primaryKey, $options = [])
- * @method \App\Model\Entity\Client newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Client[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Client|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Client patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Client[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Client findOrCreate($search, callable $callback = null, $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ClientsTable extends Table
 {
+    /* 論理削除設定 */
+    use SoftDeleteTrait;
+    protected $softDeleteField = 'deleted';
 
     /**
      * Initialize method
@@ -32,14 +25,10 @@ class ClientsTable extends Table
      */
     public function initialize(array $config)
     {
-        parent::initialize($config);
-
         $this->table('clients');
         $this->displayField('name');
         $this->primaryKey('id');
-
         $this->addBehavior('Timestamp');
-
         $this->belongsTo('Users', [
             'foreignKey' => 'users_id',
             'joinType' => 'INNER'
@@ -55,23 +44,15 @@ class ClientsTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
-
-        $validator
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create')
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
-
-        $validator
-            ->allowEmpty('postalcode');
-
-        $validator
-            ->allowEmpty('address');
-
-        $validator
-            ->allowEmpty('tel');
-
-        $validator
+            ->notEmpty('name')
+            ->requirePresence('shortname', 'create')
+            ->notEmpty('shortname')
+            ->allowEmpty('postalcode')
+            ->allowEmpty('address')
+            ->allowEmpty('tel')
             ->allowEmpty('remarks');
 
         return $validator;
@@ -87,7 +68,6 @@ class ClientsTable extends Table
     public function buildRules(RulesChecker $rules)
     {
         $rules->add($rules->existsIn(['users_id'], 'Users'));
-
         return $rules;
     }
 }

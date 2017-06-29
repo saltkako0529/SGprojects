@@ -1,6 +1,7 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Hour;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
@@ -8,19 +9,6 @@ use Cake\Validation\Validator;
 
 /**
  * Hours Model
- *
- * @property \Cake\ORM\Association\BelongsTo $Users
- * @property \Cake\ORM\Association\BelongsTo $Projects
- *
- * @method \App\Model\Entity\Hour get($primaryKey, $options = [])
- * @method \App\Model\Entity\Hour newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Hour[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Hour|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Hour patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Hour[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Hour findOrCreate($search, callable $callback = null, $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class HoursTable extends Table
 {
@@ -33,14 +21,10 @@ class HoursTable extends Table
      */
     public function initialize(array $config)
     {
-        parent::initialize($config);
-
         $this->table('hours');
         $this->displayField('id');
         $this->primaryKey('id');
-
         $this->addBehavior('Timestamp');
-
         $this->belongsTo('Users', [
             'foreignKey' => 'users_id',
             'joinType' => 'INNER'
@@ -60,54 +44,34 @@ class HoursTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
-
-        $validator
-            ->integer('year')
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create')
+            ->add('year', 'valid', ['rule' => 'numeric'])
             ->requirePresence('year', 'create')
-            ->notEmpty('year');
-
-        $validator
-            ->integer('month')
+            ->notEmpty('year')
+            ->add('month', 'valid', ['rule' => 'numeric'])
             ->requirePresence('month', 'create')
-            ->notEmpty('month');
-
-        $validator
-            ->integer('date')
+            ->notEmpty('month')
+            ->add('date', 'valid', ['rule' => 'numeric'])
             ->requirePresence('date', 'create')
-            ->notEmpty('date');
-
-        $validator
-            ->integer('kind')
+            ->notEmpty('date')
+            ->add('kind', 'valid', ['rule' => 'numeric'])
             ->requirePresence('kind', 'create')
-            ->notEmpty('kind');
-
-        $validator
-            ->integer('officer')
+            ->notEmpty('kind')
+            ->add('officer', 'valid', ['rule' => 'numeric'])
             ->requirePresence('officer', 'create')
-            ->notEmpty('officer');
-
-        $validator
+            ->notEmpty('officer')
             ->requirePresence('hour', 'create')
-            ->notEmpty('hour');
-
-        $validator
-            ->integer('work')
+            ->notEmpty('hour')
+            ->add('work', 'valid', ['rule' => 'numeric'])
             ->requirePresence('work', 'create')
-            ->notEmpty('work');
-
-        $validator
-            ->integer('application')
+            ->notEmpty('work')
+            ->add('application', 'valid', ['rule' => 'numeric'])
             ->requirePresence('application', 'create')
-            ->notEmpty('application');
-
-        $validator
-            ->integer('print')
+            ->notEmpty('application')
+            ->add('print', 'valid', ['rule' => 'numeric'])
             ->requirePresence('print', 'create')
-            ->notEmpty('print');
-
-        $validator
+            ->notEmpty('print')
             ->allowEmpty('remarks');
 
         return $validator;
@@ -124,7 +88,6 @@ class HoursTable extends Table
     {
         $rules->add($rules->existsIn(['users_id'], 'Users'));
         $rules->add($rules->existsIn(['projects_id'], 'Projects'));
-
         return $rules;
     }
 }

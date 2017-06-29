@@ -30,9 +30,35 @@ for ($i = 1; $i < $last_day + 1; $i++) {
         }
     }
 }
+$n_year = date('Y');
 ?>
-<h4><?php echo $year; ?>年<?php echo $month; ?>月</h4>
-
+<div class="col-md-6 col-sm-4">
+	<h4><?php echo $year; ?>年<?php echo $month; ?>月</h4>
+</div>
+<!-- 年月変更プルダウン　ここから -->
+<div class="col-md-6 col-sm-8">
+	<div class="col-md-5 col-sm-4">
+		<!-- 年の選択ボックス -->
+		<select id="c_year" class="form-control select1 select-primary" data-toggle="select1">
+		<?php for ($i = 0; $i < 5; $i++) { ?>
+			<option value="<?php echo $n_year - $i ;?>" <?php echo $n_year - $i == $year ? "selected" : "" ;?>><?php echo $n_year - $i ;?>年</option>
+		<?php };?>
+		</select>
+	</div> 	
+	<div class="col-md-5 col-sm-4">
+		<!-- 月の選択ボックス -->
+		<select id="c_month" class="form-control select2 select-primary" data-toggle="select2">
+		<?php for ($m = 1; $m < 13; $m++) { ?>
+			<option value="<?php echo $m ;?>" <?php echo $m == $month ? "selected" : "" ;?>><?php echo $m ;?>月</option>
+		<?php };?>
+		</select>
+	</div> 
+	<div class="col-md-2 col-sm-4">
+			<a href="" class="btn btn-block btn-primary" id="chang_calender"><span class="fui-calendar-solid"></span></a>
+	</div>
+</div> 
+<!-- 年月変更プルダウン　ここまで -->
+<!-- 工数カレンダー　ここから -->
 <table class="table">
    <thead class="thead-inverse">
 		<tr>
@@ -59,8 +85,8 @@ for ($i = 1; $i < $last_day + 1; $i++) {
 				<?php $cnt++; ?>
 				<?php if (!empty($value['day'])): ?>
 				<p class="day"><?php echo $value['day']; ?></p>
-				<p><a href="/hours/view/<?php echo $user_auth['id']; ?>/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $value['day']; ?>" class="btn btn-block btn-lg btn-primary btn-sm"><span class="fui-list-thumbnailed"></span> 詳細</a></p>
-				<!--li><a href="/hours/edit/<?php echo $user_auth['id']; ?>/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $value['day']; ?>" class="btn btn-block btn-lg btn-primary btn-sm"><span class="fui-new"></span> 編集</a></li-->
+				<p><a href="/hours/view/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $value['day']; ?>" class="btn btn-block btn-primary btn-sm"><span class="fui-list-thumbnailed"></span> 詳細</a></p>
+				<!--li><a href="/hours/edit/<?php echo $year; ?>/<?php echo $month; ?>/<?php echo $value['day']; ?>" class="btn btn-block btn-lg btn-primary btn-sm"><span class="fui-new"></span> 編集</a></li-->
 				<!--p><a href="" class="btn btn-block btn-lg btn-default btn-sm"><span class="fui-document"></span> 印刷</a></p-->
 				<?php endif; ?>
 			</td>
@@ -73,3 +99,4 @@ for ($i = 1; $i < $last_day + 1; $i++) {
 		</tr>
    </tbody>
 </table>
+<!-- 工数カレンダー　ここまで -->

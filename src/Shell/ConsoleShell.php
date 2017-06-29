@@ -28,7 +28,7 @@ class ConsoleShell extends Shell
     /**
      * Start the shell and interactive console.
      *
-     * @return int|null
+     * @return int|void
      */
     public function main()
     {
@@ -42,8 +42,7 @@ class ConsoleShell extends Shell
             $this->err('');
             $this->err('<info>$ php composer.phar require --dev psy/psysh</info>');
             $this->err('');
-
-            return self::CODE_ERROR;
+            return 1;
         }
 
         $this->out("You can exit with <info>`CTRL-C`</info> or <info>`exit`</info>");
@@ -62,11 +61,11 @@ class ConsoleShell extends Shell
     /**
      * Display help for this console.
      *
-     * @return \Cake\Console\ConsoleOptionParser
+     * @return ConsoleOptionParser
      */
     public function getOptionParser()
     {
-        $parser = new ConsoleOptionParser('console');
+        $parser = new ConsoleOptionParser('console', false);
         $parser->description(
             'This shell provides a REPL that you can use to interact ' .
             'with your application in an interactive fashion. You can use ' .
@@ -75,7 +74,6 @@ class ConsoleShell extends Shell
             "\n\n" .
             'You will need to have psysh installed for this Shell to work.'
         );
-
         return $parser;
     }
 }

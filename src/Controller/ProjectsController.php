@@ -12,19 +12,21 @@ use Cake\ORM\TableRegistry;
  */
 class ProjectsController extends AppController
 {
+
     public function beforeFilter(Event $event)
     {
-		// 選択肢項目読み込み
-		$kind = Configure::read('Project.kind');
-		$status = Configure::read('Project.status');
+				// 選択肢項目読み込み
+				$kind = Configure::read('Project.kind');
+				$status = Configure::read('Project.status');
         $this->set(compact('kind','status'));
 
-		// ページ情報
-		$active = 'projects';
+				// ページ情報
+				$active = 'projects';
         $this->set(compact('active'));
     }
 
-    /**
+    /** -----------------------------------------------------------------------------
+     * 
      * 一覧画面
      */
     public function index()
@@ -38,7 +40,8 @@ class ProjectsController extends AppController
         $this->set('_serialize', ['projects']);
     }
 
-    /**
+    /** -----------------------------------------------------------------------------
+     * 
      * 詳細画面
      */
     public function view($id = null)
@@ -46,7 +49,7 @@ class ProjectsController extends AppController
         $project = $this->Projects->get($id, [
             'contain' => ['Users', 'Clients']
         ]);
-		// 外注マスタを取得->配列へ変換
+				// 外注マスタを取得->配列へ変換
         $outsourcings = TableRegistry::get('Outsourcings');
         $out = $outsourcings->find('list')->toArray();
 
@@ -54,19 +57,20 @@ class ProjectsController extends AppController
         $this->set('_serialize', ['project']);
     }
 
-    /**
+    /** -----------------------------------------------------------------------------
+     * 
      * 案件編集画面
      */
     public function edit($id = null)
     {
-		if(!empty($id)){// 編集
-			$project = $this->Projects->get($id, [
-				'contain' => ['Users', 'Clients']
-			]);
-		} else {// 新規追加
-			$project = $this->Projects->newEntity();
-		}
-		// 外注マスタを取得->配列へ変換
+        if(!empty($id)){// 編集
+						$project = $this->Projects->get($id, [
+							 'contain' => ['Users', 'Clients']
+						]);
+        } else {// 新規追加
+            $project = $this->Projects->newEntity();
+        }
+        // 外注マスタを取得->配列へ変換
         $outsourcings = TableRegistry::get('Outsourcings');
         $out = $outsourcings->find('list')->toArray();
 
@@ -74,6 +78,7 @@ class ProjectsController extends AppController
             $project = $this->Projects->patchEntity($project, $this->request->data);
             if ($this->Projects->save($project)) {
                 $this->Flash->success(__('登録が完了しました。'));
+
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('登録に失敗しました！登録内容を再度ご確認ください。'));
@@ -85,20 +90,18 @@ class ProjectsController extends AppController
         $this->set('_serialize', ['project']);
     }
 
-    /**
-     * 削除メソッド
+    /** -----------------------------------------------------------------------------
+     * 
+     * 削除アクション
      */
     public function delete($id = null)
     {
-        $this->request->allowMethod(['post', 'delete']);
         $project = $this->Projects->get($id);
-
-        if ($this->Projects->delete($user)) {
+        if ($this->Projects->delete($project)) {
             $this->Flash->success(__('データを削除しました。'));
         } else {
             $this->Flash->error(__('データを削除できませんでした。'));
         }
-
         return $this->redirect(['action' => 'index']);
     }
 }

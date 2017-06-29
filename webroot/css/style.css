@@ -1,9 +1,8 @@
 html { height: 100%; }
 body { height: 100%; /*background-color: #efefef;*/ }
 #cont_right { height: 100%; background-color: #fff; }
-#cont_box { position: absolute; top: 53px; width: 100%; }
+#cont_box { padding-top: 57px; }
 .card-header { text-align: center; }
-.navbar-fixed-top {}
 .navbar { margin-bottom: 0; }
 .message { text-align: center; }
 .navbar-collapse .navbar-nav.navbar-right:last-child { margin-right: 10px; }
@@ -35,8 +34,6 @@ ul.pagination { margin: 0; }
 nav.no-p {
     padding-left: 0;
     padding-right: 0;
-	height: 100%;
-	background: #eee;
 }
 .nav-pills>li>a { border-radius: 0; }
 .nav>li>a { padding: 7px 20px; }
@@ -44,13 +41,14 @@ nav.no-p {
 .nav-pills>li>a:hover, .nav>li>a:focus {
     background-color: #1ABC9C;
     color: #fff;
+    padding-left: 26px;
 }
 .nav-pills>li.active>a, .nav-pills>li.active>a:hover, .nav-pills>li.active>a:focus {
     background-color: #1ABC9C;
 }
 a:hover, a:focus { color: #fff; }
 .nav-stacked>li+li { margin-top: 0px; border-top: 1px solid #ffffff; }
-.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td { border-right: 1px dotted #ddd; }
+.table>thead>tr>th, .table>tbody>tr>th, .table>tfoot>tr>th, .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td { border-right: 1px dotted #ddd; vertical-align: middle; }
 /*-----------------------
   Img CSS
 -----------------------*/
@@ -82,6 +80,7 @@ a:hover, a:focus { color: #fff; }
 /*-----------------------
   Common CSS
 -----------------------*/
+/*- width -------------*/
 .w_50 { width: 50px; }
 .w_100 { width: 100px; }
 .w_150 { width: 150px; }
@@ -91,4 +90,15 @@ a:hover, a:focus { color: #fff; }
 .w_400 { width: 400px; }
 .w_500 { width: 500px; }
 
+/*- margin -------------*/
+.mt_10 { margin-top: 10px; }
+.mt_20 { margin-top: 20px; }
+.mt_30 { margin-top: 30px; }
+
+/*- other --------------*/
+.con-box {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px 0;
+}
 

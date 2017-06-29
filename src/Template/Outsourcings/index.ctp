@@ -1,8 +1,18 @@
-<h3><span class="fui-tag"></span>　外注マスタ</h3>
+<h3 class="col-sm-6"><span class="fui-tag"></span>　外注マスタ</h3>
+<!-- 検索フォーム -->
+<?= $this->Form->create() ?>
+<div class="col-sm-6 con-box mt_20" >
+<fieldset>
+	<div class="col-sm-10"><?= $this->Form->input('name', ['placeholder'=>'名前を検索']); ?></div>
+	<div class="col-sm-2"><?= $this->Form->button('<span class="fui-search"></span>', ['class'=>'btn btn-block btn-primary'] ) ?></div>
+</fieldset>
+</div>
+<?= $this->Form->end() ?>
+<!-- データ一覧 -->
 <table class="table table-striped">
 <thead class="thead-inverse">
 	    <tr>
-	        <th scope="col"><?= $this->Paginator->sort('id') ?></th>
+	        <th style="width: 60px;" scope="col"><?= $this->Paginator->sort('id') ?></th>
 	        <th scope="col">名前</th>
 	        <th scope="col">住所</th>
 	        <th scope="col">電話</th>
@@ -20,10 +30,22 @@
 	        <td><?= h($outsourcing->remarks) ?></td>
 	        <td class="actions">
 	            <div class="col-xs-9 no-p">
-			<a href="/outsourcings/edit/<?= h($outsourcing['id']) ?>" class="btn btn-block btn-lg btn-primary btn-sm"><span class="fui-check"></span> 編集</a>
+									<a href="/outsourcings/edit/<?= h($outsourcing['id']) ?>" class="btn btn-block btn-lg btn-primary btn-sm"><span class="fui-check"></span> 編集</a>
 	            </div>
 	            <div class="col-xs-3 no-p icon-p">
-		        <a href="/outsourcings/delete/<?= h($outsourcing['id']) ?>"><span class="fui-trash"></span></a>
+							<?php
+							echo $this->Html->link(
+									'<span class="fui-trash"></span>' ,
+									array(
+											'controller'=> 'outsourcings',
+											'action'=> 'delete', $outsourcing['id'],
+									),
+									array(
+											'escape'=>false,
+											'confirm'=>'削除してよろしいですか?'
+									)
+							);
+							?>
 	            </div>
 	        </td>
 	    </tr>

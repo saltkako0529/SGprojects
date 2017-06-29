@@ -1,29 +1,21 @@
 <?php
 namespace App\Model\Table;
 
+use App\Model\Entity\Project;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use SoftDelete\Model\Table\SoftDeleteTrait;
 
 /**
  * Projects Model
- *
- * @property \Cake\ORM\Association\BelongsTo $Users
- * @property \Cake\ORM\Association\BelongsTo $Clients
- *
- * @method \App\Model\Entity\Project get($primaryKey, $options = [])
- * @method \App\Model\Entity\Project newEntity($data = null, array $options = [])
- * @method \App\Model\Entity\Project[] newEntities(array $data, array $options = [])
- * @method \App\Model\Entity\Project|bool save(\Cake\Datasource\EntityInterface $entity, $options = [])
- * @method \App\Model\Entity\Project patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
- * @method \App\Model\Entity\Project[] patchEntities($entities, array $data, array $options = [])
- * @method \App\Model\Entity\Project findOrCreate($search, callable $callback = null, $options = [])
- *
- * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ProjectsTable extends Table
 {
+    /* 論理削除設定 */
+    use SoftDeleteTrait;
+    protected $softDeleteField = 'deleted';
 
     /**
      * Initialize method
@@ -33,14 +25,10 @@ class ProjectsTable extends Table
      */
     public function initialize(array $config)
     {
-        parent::initialize($config);
-
         $this->table('projects');
         $this->displayField('name');
         $this->primaryKey('id');
-
         $this->addBehavior('Timestamp');
-
         $this->belongsTo('Users', [
             'foreignKey' => 'users_id'
         ]);
@@ -59,38 +47,22 @@ class ProjectsTable extends Table
     public function validationDefault(Validator $validator)
     {
         $validator
-            ->integer('id')
-            ->allowEmpty('id', 'create');
-
-        $validator
+            ->add('id', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('id', 'create')
             ->requirePresence('name', 'create')
-            ->notEmpty('name');
-
-        $validator
-            ->allowEmpty('no');
-
-        $validator
-            ->integer('kind')
+            ->notEmpty('name')
+            ->allowEmpty('no')
+            ->add('kind', 'valid', ['rule' => 'numeric'])
             ->requirePresence('kind', 'create')
-            ->notEmpty('kind');
-
-        $validator
-            ->integer('status')
+            ->notEmpty('kind')
+            ->add('status', 'valid', ['rule' => 'numeric'])
             ->requirePresence('status', 'create')
-            ->notEmpty('status');
-
-        $validator
-            ->allowEmpty('estimated');
-
-        $validator
-            ->date('billingdate')
-            ->allowEmpty('billingdate');
-
-        $validator
-            ->integer('year')
-            ->allowEmpty('year');
-
-        $validator
+            ->notEmpty('status')
+            ->allowEmpty('estimated')
+            ->add('billingdate', 'valid', ['rule' => 'date'])
+            ->allowEmpty('billingdate')
+            ->add('year', 'valid', ['rule' => 'numeric'])
+            ->allowEmpty('year')
             ->allowEmpty('remarks');
 
         return $validator;
@@ -107,7 +79,6 @@ class ProjectsTable extends Table
     {
         $rules->add($rules->existsIn(['users_id'], 'Users'));
         $rules->add($rules->existsIn(['clients_id'], 'Clients'));
-
         return $rules;
     }
 }
